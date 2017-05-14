@@ -1,0 +1,27 @@
+{
+  "name": "execut/yii2-dependencies",
+  "description": "Yii2 components for detach dependencies between modules",
+  "keywords": ["yii2 grid", "yii2 fields"],
+  "homepage": "https://github.com/execut/yii2-dependencies",
+  "type": "library",
+  "license": "Apache-2.0",
+  "support": {
+    "issues": "https://github.com/execut/yii2-dependencies/issues?state=open",
+    "wiki": "https://github.com/execut/yii2-dependencies/wiki",
+    "source": "https://github.com/execut/yii2-dependencies"
+  },
+  "authors": [
+    {
+      "name": "eXeCUT"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "yiisoft/yii2": "@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "execut\\dependencies\\": ""
+    }
+  }
+}
