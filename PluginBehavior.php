@@ -24,7 +24,7 @@ class PluginBehavior extends \yii\base\Behavior
                     $this->_plugins[$key] = $plugin;
                 }
 
-                if (!is_subclass_of($plugin, $this->pluginInterface)) {
+                if (!($plugin instanceof $this->pluginInterface)) {
                     throw new Exception('Plugin for module ' . $this->owner->id . ' ' . get_class($plugin) . ' must bee instanceof ' . $this->pluginInterface);
                 }
             }
