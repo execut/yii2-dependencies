@@ -5,7 +5,7 @@
 namespace execut\dependencies;
 
 
-use execut\yii\base\Exception;
+use yii\base\Exception;
 
 class PluginBehavior extends \yii\base\Behavior
 {
@@ -17,6 +17,10 @@ class PluginBehavior extends \yii\base\Behavior
 
     protected $_pluginsIsInited = false;
     protected function initPlugins() {
+        if (!is_string($this->pluginInterface)) {
+            throw new Exception('You may set pluginInterface via behavior config');
+        }
+
         if (!$this->_pluginsIsInited) {
             foreach ($this->_plugins as $key => $plugin) {
                 if (is_array($plugin)) {
@@ -38,10 +42,10 @@ class PluginBehavior extends \yii\base\Behavior
         return $this->_plugins;
     }
 
-    public function getPluginsResults($function, $isFirstResult = false) {
+    public function getPluginsResults($function, $isFirstResult = false, $arguments = []) {
         $result = [];
         foreach ($this->getPlugins() as $plugin) {
-            $pluginResult = $plugin->$function();
+            $pluginResult = call_user_func_array([$plugin, $function], $arguments);
             if ($isFirstResult) {
                 return $result;
             }
