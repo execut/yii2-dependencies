@@ -50,7 +50,9 @@ class PluginBehavior extends \yii\base\Behavior
                 return $result;
             }
 
-            $result = array_merge($result, $pluginResult);
+            if (is_array($pluginResult)) {
+                $result = array_merge($result, $pluginResult);
+            }
         }
 
         return $result;
