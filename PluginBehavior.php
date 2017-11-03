@@ -47,7 +47,7 @@ class PluginBehavior extends \yii\base\Behavior
         foreach ($this->getPlugins() as $plugin) {
             $pluginResult = call_user_func_array([$plugin, $function], $arguments);
             if ($isFirstResult) {
-                return $result;
+                return $pluginResult;
             }
 
             if (is_array($pluginResult)) {
