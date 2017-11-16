@@ -43,14 +43,18 @@ class PluginBehavior extends \yii\base\Behavior
     }
 
     public function getPluginsResults($function, $isFirstResult = false, $arguments = []) {
-        $result = [];
+        $result = null;
         foreach ($this->getPlugins() as $plugin) {
             $pluginResult = call_user_func_array([$plugin, $function], $arguments);
-            if ($isFirstResult) {
+            if ($isFirstResult && $pluginResult) {
                 return $pluginResult;
             }
 
-            if (is_array($pluginResult)) {
+            if (!$isFirstResult && is_array($pluginResult)) {
+                if ($result === null) {
+                    $result = [];
+                }
+
                 $result = array_merge($result, $pluginResult);
             }
         }
