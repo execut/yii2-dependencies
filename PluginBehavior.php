@@ -31,6 +31,10 @@ class PluginBehavior extends \yii\base\Behavior
                 if (!($plugin instanceof $this->pluginInterface)) {
                     throw new Exception('Plugin for module ' . $this->owner->id . ' ' . get_class($plugin) . ' must bee instanceof ' . $this->pluginInterface);
                 }
+
+                if (method_exists($plugin, 'attach')) {
+                    $plugin->attach($this->owner);
+                }
             }
 
             $this->_pluginsIsInited = true;
