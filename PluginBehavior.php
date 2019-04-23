@@ -46,6 +46,10 @@ class PluginBehavior extends \yii\base\Behavior
         return $this->_plugins;
     }
 
+    public function getPlugin($name) {
+        return $this->getPlugins()[$name];
+    }
+
     public function getPluginsResults($function, $isFirstResult = false, $arguments = []) {
         $result = null;
         foreach ($this->getPlugins() as $plugin) {
