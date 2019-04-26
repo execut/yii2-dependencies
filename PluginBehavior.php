@@ -6,6 +6,7 @@ namespace execut\dependencies;
 
 
 use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 
 class PluginBehavior extends \yii\base\Behavior
 {
@@ -63,7 +64,7 @@ class PluginBehavior extends \yii\base\Behavior
                     $result = [];
                 }
 
-                $result = array_merge($result, $pluginResult);
+                $result = ArrayHelper::merge($result, $pluginResult);
             }
         }
 
