@@ -42,7 +42,7 @@ abstract class Outer extends Component
         foreach ($tablesConfigs as $key => $table) {
             if (is_array($table)) {
                 if (!isset($table['class'])) {
-                    $table['class'] = Table::className();
+                    $table['class'] = Table::class;
                 }
 
                 $table = \yii::createObject($table);
@@ -59,7 +59,7 @@ abstract class Outer extends Component
      * @return self
      */
     public static function getInstance() {
-        $dependenciesClass = self::className();
+        $dependenciesClass = self::class;
         $outerDep = \yii::$container->get($dependenciesClass);
 
         return $outerDep;
