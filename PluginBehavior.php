@@ -18,8 +18,13 @@ class PluginBehavior extends \yii\base\Behavior
 
     protected $_pluginsIsInited = false;
     protected function initPlugins() {
-        if (!is_string($this->pluginInterface)) {
+        $pluginInterfaces = $this->pluginInterface;
+        if (!(is_array($pluginInterfaces) || is_string($pluginInterfaces)) || empty($pluginInterfaces)) {
             throw new Exception('You may set pluginInterface via behavior config');
+        }
+
+        if (is_string($pluginInterfaces)) {
+            $pluginInterfaces = [$pluginInterfaces];
         }
 
         if (!$this->_pluginsIsInited) {
@@ -29,8 +34,16 @@ class PluginBehavior extends \yii\base\Behavior
                     $this->_plugins[$key] = $plugin;
                 }
 
-                if (!($plugin instanceof $this->pluginInterface)) {
-                    throw new Exception('Plugin for module ' . $this->owner->id . ' ' . get_class($plugin) . ' must bee instanceof ' . $this->pluginInterface);
+                $isHasGood = false;
+                foreach ($pluginInterfaces as $pluginInterface) {
+                    if ($plugin instanceof $pluginInterface) {
+                        $isHasGood = true;
+                        break;
+                    }
+                }
+
+                if (!$isHasGood) {
+                    throw new Exception('Plugin for module ' . $this->owner->id . ' ' . get_class($plugin) . ' must bee instanceof ' . implode(' or ', $pluginInterfaces));
                 }
 
                 if (method_exists($plugin, 'attach')) {
@@ -54,6 +67,10 @@ class PluginBehavior extends \yii\base\Behavior
     public function getPluginsResults($function, $isFirstResult = false, $arguments = []) {
         $result = null;
         foreach ($this->getPlugins() as $plugin) {
+            if (!method_exists($plugin, $function)) {
+                continue;
+            }
+
             $pluginResult = call_user_func_array([$plugin, $function], $arguments);
             if ($isFirstResult && $pluginResult) {
                 return $pluginResult;
