@@ -71,6 +71,18 @@ class PluginBehaviorTest extends TestCase implements PluginBehaviorTestOkInterfa
         ]);
         $this->assertIsArray($behavior->getPlugins());
     }
+
+    public function testAddPlugins() {
+        $behavior = new PluginBehavior([
+            'pluginInterface' => PluginBehaviorTestOkInterface::class,
+        ]);
+        $behavior->addPlugins([
+            'test' => [
+                'class' => self::class,
+            ],
+        ]);
+        $this->assertInstanceOf(self::class, $behavior->getPlugin('test'));
+    }
 }
 
 interface PluginBehaviorTestInterface {

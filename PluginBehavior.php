@@ -55,6 +55,14 @@ class PluginBehavior extends \yii\base\Behavior
         }
     }
 
+    public function addPlugins($plugins) {
+        if ($this->_pluginsIsInited === false) {
+
+        }
+
+        $this->_plugins = array_merge($this->_plugins, $plugins);
+    }
+
     public function getPlugins() {
         $this->initPlugins();
         return $this->_plugins;
