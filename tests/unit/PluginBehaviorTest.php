@@ -4,9 +4,9 @@
 namespace execut\dependencies;
 
 
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class PluginBehaviorTest extends TestCase implements PluginBehaviorTestOkInterface
+class PluginBehaviorTest extends Unit implements PluginBehaviorTestOkInterface
 {
     public $id = 'test';
     public function testBadInstanceException() {
@@ -81,6 +81,30 @@ class PluginBehaviorTest extends TestCase implements PluginBehaviorTestOkInterfa
                 'class' => self::class,
             ],
         ]);
+        $this->assertInstanceOf(self::class, $behavior->getPlugin('test'));
+    }
+
+    public function testAddPluginFromConfiguration()
+    {
+        $behavior = new PluginBehavior([
+            'pluginInterface' => PluginBehaviorTestOkInterface::class,
+        ]);
+
+        $behavior->addPlugin('test', [
+            'class' => self::class,
+        ]);
+
+        $this->assertInstanceOf(self::class, $behavior->getPlugin('test'));
+    }
+
+    public function testAddPluginInstance()
+    {
+        $behavior = new PluginBehavior([
+            'pluginInterface' => PluginBehaviorTestOkInterface::class,
+        ]);
+
+        $behavior->addPlugin('test', $this);
+
         $this->assertInstanceOf(self::class, $behavior->getPlugin('test'));
     }
 }

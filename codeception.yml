@@ -1,4 +1,5 @@
 namespace: execut\dependencies
+bootstrap: _bootstrap.php
 paths:
     tests: tests
     output: tests/_output

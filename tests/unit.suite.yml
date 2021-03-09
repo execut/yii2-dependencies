@@ -1,4 +1,10 @@
 # Codeception Test Suite Configuration
+#
+# Suite for unit (internal) tests.
 
-# suite for unit (internal) tests.
-# RUN `build` COMMAND AFTER ADDING/REMOVING MODULES.
+suite_namespace: execut\dependencies\tests\unit
+class_name: CodeGuy
+modules:
+  enabled:
+    - Yii2:
+        configFile: tests/configs/main.php

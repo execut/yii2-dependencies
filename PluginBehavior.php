@@ -1,9 +1,7 @@
 <?php
 /**
  */
-
 namespace execut\dependencies;
-
 
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
@@ -12,12 +10,14 @@ class PluginBehavior extends \yii\base\Behavior
 {
     protected $_plugins = [];
     public $pluginInterface = null;
-    public function setPlugins($plugins) {
+    public function setPlugins($plugins)
+    {
         $this->_plugins = $plugins;
     }
 
     protected $_pluginsIsInited = false;
-    protected function initPlugins() {
+    protected function initPlugins()
+    {
         $pluginInterfaces = $this->pluginInterface;
         if (!(is_array($pluginInterfaces) || is_string($pluginInterfaces)) || empty($pluginInterfaces)) {
             throw new Exception('You may set pluginInterface via behavior config');
@@ -55,24 +55,31 @@ class PluginBehavior extends \yii\base\Behavior
         }
     }
 
-    public function addPlugins($plugins) {
-        if ($this->_pluginsIsInited === false) {
-
-        }
-
-        $this->_plugins = array_merge($this->_plugins, $plugins);
+    public function addPlugin($name, $plugin)
+    {
+        $this->_plugins[$name] = $plugin;
     }
 
-    public function getPlugins() {
+    public function addPlugins($plugins)
+    {
+        foreach ($plugins as $name => $plugin) {
+            $this->addPlugin($name, $plugin);
+        }
+    }
+
+    public function getPlugins()
+    {
         $this->initPlugins();
         return $this->_plugins;
     }
 
-    public function getPlugin($name) {
+    public function getPlugin($name)
+    {
         return $this->getPlugins()[$name];
     }
 
-    public function getPluginsResults($function, $isFirstResult = false, $arguments = []) {
+    public function getPluginsResults($function, $isFirstResult = false, $arguments = [])
+    {
         $result = null;
         foreach ($this->getPlugins() as $plugin) {
             if (!method_exists($plugin, $function)) {
